@@ -10,15 +10,17 @@ var app = express();
 
 app.use(bodyParser.json());
 app.use(compression());
+app.use('/.netlify/functions/server');
 
 firebase.initializeApp(config);
 
 app.set("port", process.env.PORT || 3000);
 //to handle HTTP get request
 app.get("/rates", function(req, res) {
-  console.log("HTTP Get Request");
-  res.send("HTTP GET Request");   
-
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.write('<h1>Hello from Express.js!</h1>');
+  res.end();
+  
   scrapeSelectBy().then(list => {
     console.log("done!");
     
